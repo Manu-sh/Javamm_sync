@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Javamm
+Terminal=false
+Icon=eclipse
+Type=Application
+Exec=/opt/javamm/eclipse
