@@ -3,4 +3,5 @@ Name=Javamm
 Terminal=false
 Icon=eclipse
 Type=Application
+Categories=Application;Development;
 Exec=/opt/javamm/eclipse
