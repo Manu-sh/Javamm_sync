@@ -1,9 +1,19 @@
 #!/bin/bash
 
-#require cURL, Gnu Awk (gawk) and Gnu Sed
-
 ARCH=$(uname -m)
 URL='http://dl.bintray.com/content/lorenzobettini/javamm/products'
+
+
+href() {
+
+	while read -rd ' ' i; do
+		if [[ "${i}" =~ href= ]]; then
+			i=$(sed s@href=\"\:@@ <<< "${i}")
+			echo $i
+		fi
+	done
+	unset i
+}
 
 oshit() {
 	echo -e "cannot fetching the version \"${LAST_VERSION}\" from ->\n\t${URL}/${LAST_VERSION}"
@@ -11,8 +21,7 @@ oshit() {
 
 tagstrip() {
 
-	gawk "/href=\"/{print \$3}"|sed s@href=\"\:@@|case $1 in
-
+	href|case $1 in
 		version) sed s'@/"@@'|tail -1 ;;
 		file) sed s'@"@@'|grep "linux"|grep -w "$ARCH" ;;
 	esac
