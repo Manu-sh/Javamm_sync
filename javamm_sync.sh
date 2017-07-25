@@ -28,15 +28,17 @@ tagstrip() {
 }
 
 
-# -L is for following moved link (errors 3XX)
+# with cURL -L is for following moved link (errors 3XX)
 
-if ! LAST_VERSION="$(curl -sL "${URL}"|tagstrip version 2>/dev/null)"; then
+# if ! LAST_VERSION="$(curl -sL "${URL}"|tagstrip version 2>/dev/null)"; then
+if ! LAST_VERSION="$(wget -qO- "${URL}"|tagstrip version 2>/dev/null)"; then
 	echo "cannot get data from \"$URL\" or data or contains unexpected pattern"
 else
 	echo "LAST VERSION: \"${LAST_VERSION}\" "
 	echo "${URL}/${LAST_VERSION}"
 
-	if FILE="$(curl -sL "${URL}/${LAST_VERSION}"|tagstrip file 2>/dev/null)"; then
+	# if FILE="$(curl -sL "${URL}/${LAST_VERSION}"|tagstrip file 2>/dev/null)"; then
+	if FILE="$(wget -qO- "${URL}/${LAST_VERSION}"|tagstrip file 2>/dev/null)"; then
 		wget "${URL}/${LAST_VERSION}/${FILE}" || oshit
 	else
 		echo "Could not get \"$FILE\" "
